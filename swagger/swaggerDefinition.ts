@@ -7,7 +7,7 @@ export const swaggerDefinition = {
     },
     "servers": [
       {
-        "url": "https://api.loans.projects.bbdgrad.com:5000"
+        "url": "https://api.loans.projects.bbdgrad.com"
       }
     ],
     "paths": {
