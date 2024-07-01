@@ -31,10 +31,7 @@ jobs:
 
             - name: Setup secrets
               run: |
-                DB_USERNAME=$(aws secretsmanager get-secret-value \ 
-                --secret-id short-term-lender-rds-credentials \
-                --query 'SecretString' --output text \
-                | jq .username)
+                DB_USERNAME=$(aws secretsmanager get-secret-value --secret-id short-term-lender-rds-credentials --query 'SecretString' --output text | jq .username)
                 DB_PASSWORD=$(aws secretsmanager get-secret-value \ 
                 --secret-id short-term-lender-rds-credentials \
                 --query 'SecretString' --output text \
