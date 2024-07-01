@@ -4,7 +4,7 @@ info:
   description: API for managing loan requests and loan information.
   version: 1.0.0
 servers:
-  - url: https://api.loans.projects.bbdgrad.com:5000
+  - url: https://api.loans.projects.bbdgrad.com
 paths:
   /loans/request:
     post:
