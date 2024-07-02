@@ -32,18 +32,9 @@ jobs:
             - name: Setup secrets
               run: |
                 DB_USERNAME=$(aws secretsmanager get-secret-value --secret-id short-term-lender-rds-credentials --query 'SecretString' --output text | jq .username)
-                DB_PASSWORD=$(aws secretsmanager get-secret-value \ 
-                --secret-id short-term-lender-rds-credentials \
-                --query 'SecretString' --output text \
-                | jq .password)
-                DB_HOST=$(aws secretsmanager get-secret-value \ 
-                --secret-id short-term-lender-rds-credentials \
-                --query 'SecretString' --output text \
-                | jq .host)
-                DB_PORT=$(aws secretsmanager get-secret-value \ 
-                --secret-id short-term-lender-rds-credentials \
-                --query 'SecretString' --output text \
-                | jq .port)
+                DB_PASSWORD=$(aws secretsmanager get-secret-value --secret-id short-term-lender-rds-credentials --query 'SecretString' --output text | jq .password)
+                DB_HOST=$(aws secretsmanager get-secret-value --secret-id short-term-lender-rds-credentials --query 'SecretString' --output text | jq .host)
+                DB_PORT=$(aws secretsmanager get-secret-value --secret-id short-term-lender-rds-credentials --query 'SecretString' --output text | jq .port)
 
                 echo "DB_USERNAME=$DB_USERNAME" >> $GITHUB_ENV
                 echo "DB_PASSWORD=$DB_PASSWORD" >> $GITHUB_ENV
