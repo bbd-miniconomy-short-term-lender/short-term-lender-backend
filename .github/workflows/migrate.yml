@@ -45,6 +45,6 @@ jobs:
               uses: actions/checkout@v4
 
             - run: wget -qO- https://download.red-gate.com/maven/release/com/redgate/flyway/flyway-commandline/10.11.0/flyway-commandline-10.11.0-linux-x64.tar.gz | tar -xvz && sudo ln -s `pwd`/flyway-10.11.0/flyway /usr/local/bin
-            - run: flyway -user=${{ env.DB_USERNAME }} -password=${{ env.DB_PASSWORD }} -url="jdbc:postgresql://${{ env.DB_HOST }}:${{ env.PORT }}/${{ secrets.DB_NAME }}" -locations=filesystem:$(pwd)/database/migrations info
-            - run: flyway -user=${{ env.DB_USERNAME }} -password=${{ env.DB_PASSWORD }} -url="jdbc:postgresql://${{ env.DB_HOST }}:${{ env.PORT }}/${{ secrets.DB_NAME }}" -locations=filesystem:$(pwd)/database/migrations migrate
+            - run: flyway -user=${{ env.DB_USERNAME }} -password=${{ env.DB_PASSWORD }} -url="jdbc:postgresql://${{ env.DB_HOST }}:${{ env.DB_PORT }}/${{ secrets.DB_NAME }}" -locations=filesystem:$(pwd)/database/migrations info
+            - run: flyway -user=${{ env.DB_USERNAME }} -password=${{ env.DB_PASSWORD }} -url="jdbc:postgresql://${{ env.DB_HOST }}:${{ env.DB_PORT }}/${{ secrets.DB_NAME }}" -locations=filesystem:$(pwd)/database/migrations migrate
               
