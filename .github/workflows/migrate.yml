@@ -6,7 +6,7 @@ on:
             - main
         paths: 
             - '.github/workflows/migrate.yml'
-            - 'database/*'
+            - 'database/migrations/*'
 
 permissions:
   contents: read
