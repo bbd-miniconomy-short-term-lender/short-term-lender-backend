@@ -22,6 +22,7 @@ export const feGetLoanById = async (req: Request, res: Response) => {
         
         loan!.amount = parseNumber(loan?.amount);
         loan!.monthly_repayment = parseNumber(loan?.monthly_repayment);
+        loan!.interest_rate = parseNumber(loan?.interest_rate);
         total_paid_amount = parseNumber(total_paid_amount);
 
         res.status(200).json({...loan, total_paid_amount: total_paid_amount, term_months: 6});
@@ -37,6 +38,7 @@ export const feGetLoanTable = async (req: Request, res: Response) => {
     try {
         const loans: Loan[] = await loanRepository.getLoanRecords(NUM_RECORDS_TO_LOAD);
         res.status(200).json(loans.map(loan => {
+            loan!.interest_rate = parseNumber(loan?.interest_rate);
             return {...loan, amount: parseNumber(loan?.amount.toString()), monthly_repayment: parseNumber(loan?.monthly_repayment.toString())}
         }));
     } catch (error) {
@@ -75,6 +77,3 @@ const parseNumber = (value: number | string | undefined): number => {
       return NaN;
     }
   };
-
-  console.log(parseNumber('R10,000.00'));
-  
