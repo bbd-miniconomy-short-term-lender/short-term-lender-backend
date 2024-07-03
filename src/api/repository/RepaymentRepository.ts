@@ -21,7 +21,7 @@ export class RepaymentRepository implements IRepository<Repayment> {
 
     async getTotalPaymentsByLoanId(loan_id: number): Promise<number | null> {
         const response = await this.databasePool.query(getTotalRepayments, [loan_id]);
-        return response.rows[0];
+        return response.rows[0].total_paid;
     }
 
 }
