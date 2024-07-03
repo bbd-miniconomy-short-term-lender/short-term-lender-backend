@@ -18,9 +18,13 @@ export const feGetLoanById = async (req: Request, res: Response) => {
 
     try {
         const loan = await loanRepository.findById(loan_id!);
-        const total_paid_amount = await repaymentRepository.getTotalPaymentsByLoanId(loan_id!) ?? 0;
+        let total_paid_amount = await repaymentRepository.getTotalPaymentsByLoanId(loan_id!) ?? 0;
         
-        res.status(200).json({...loan, amount: loan?.amount.toString().replace("$", "R"), monthly_repayment: loan?.monthly_repayment.toString().replace("$", "R"), total_paid_amount: total_paid_amount?.toString().replace("$", "R"), term_months: 6});
+        loan!.amount = parseNumber(loan?.amount);
+        loan!.monthly_repayment = parseNumber(loan?.monthly_repayment);
+        total_paid_amount = parseNumber(total_paid_amount);
+
+        res.status(200).json({...loan, total_paid_amount: total_paid_amount, term_months: 6});
     } catch (error) {
         console.log(error);
         res.status(500).json({message: "Internal server error"});
@@ -33,7 +37,7 @@ export const feGetLoanTable = async (req: Request, res: Response) => {
     try {
         const loans: Loan[] = await loanRepository.getLoanRecords(NUM_RECORDS_TO_LOAD);
         res.status(200).json(loans.map(loan => {
-            return {...loan, amount: loan?.amount.toString().replace("$", "R")}
+            return {...loan, amount: parseNumber(loan?.amount.toString()), monthly_repayment: parseNumber(loan?.monthly_repayment.toString())}
         }));
     } catch (error) {
         console.log(error);
@@ -59,3 +63,14 @@ export const feUpdateLoanStatus = async (req: Request, res: Response) => {
     //     res.status(500).json({message: "Internal server error"});
     // }
 }
+
+const parseNumber = (value: number | string | undefined): number => {
+    if (typeof value === 'string') {
+      value = value.replace(/^\D+/, '');
+      return parseFloat(value);
+    } else if (typeof value === 'number') {
+      return value;
+    } else {
+      return NaN;
+    }
+  };
