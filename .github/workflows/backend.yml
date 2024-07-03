@@ -40,7 +40,7 @@ jobs:
         run: |
           ssh -i pvt_key.pem ec2-user@${{ env.EC2_IP }} "sudo systemctl stop server.service && \
           rm -rf /home/ec2-user/server/*"
-          tar -czvf api_archive.tar.gz .
+          tar -czf api_archive.tar.gz src/ swagger/ package.json tsconfig.json
           scp -i pvt_key.pem api_archive.tar.gz ec2-user@${{ env.EC2_IP }}:/home/ec2-user/server/
           ssh -i pvt_key.pem ec2-user@${{ env.EC2_IP }} "tar -xzvf /home/ec2-user/server/api_archive.tar.gz -C /home/ec2-user/server && \
           npm install && \
