@@ -36,7 +36,7 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
         if (err) {
             return res.status(401).json({ message: 'Invalid token.' });
         }
-        req.user = decoded as JwtPayload;
+        // req.user = decoded as JwtPayload;
         next();
     });
 };
