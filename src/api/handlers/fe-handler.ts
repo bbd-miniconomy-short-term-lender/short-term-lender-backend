@@ -66,7 +66,8 @@ export const feUpdateLoanStatus = async (req: Request, res: Response) => {
 
 const parseNumber = (value: number | string | undefined): number => {
     if (typeof value === 'string') {
-      value = value.replace(/^\D+/, '');
+      value = value.replace(/^[^\d]+/, '');
+      value = value.replace(/,/g, '');
       return parseFloat(value);
     } else if (typeof value === 'number') {
       return value;
@@ -74,3 +75,6 @@ const parseNumber = (value: number | string | undefined): number => {
       return NaN;
     }
   };
+
+  console.log(parseNumber('R10,000.00'));
+  
