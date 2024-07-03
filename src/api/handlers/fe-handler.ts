@@ -18,7 +18,7 @@ export const feGetLoanById = async (req: Request, res: Response) => {
 
     try {
         const loan = await loanRepository.findById(loan_id!);
-        const total_paid_amount = await repaymentRepository.getTotalPaymentsByLoanId(loan_id!);
+        const total_paid_amount = await repaymentRepository.getTotalPaymentsByLoanId(loan_id!) ?? 0;
         
         res.status(200).json({...loan, amount: loan?.amount.toString().replace("$", "R"), monthly_repayment: loan?.monthly_repayment.toString().replace("$", "R"), total_paid_amount: total_paid_amount?.toString().replace("$", "R"), term_months: 6});
     } catch (error) {
