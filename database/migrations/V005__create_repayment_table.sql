@@ -4,5 +4,5 @@ CREATE TABLE repayment (
     repayment_date VARCHAR(10) NOT NULL,
     persona_id BIGINT NOT NULL,
     FOREIGN KEY (persona_id) REFERENCES persona(persona_id)
-    FOREIGN KEY (loan_id) REFERENCES loan_table(loan_id)
+    FOREIGN KEY (loan_id) REFERENCES loan(loan_id)
 );
