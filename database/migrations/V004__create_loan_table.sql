@@ -6,9 +6,9 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TABLE loan_table (
+CREATE TABLE loan (
     loan_id SERIAL PRIMARY KEY,
-    loan_amount MONEY NOT NULL,
+    amount MONEY NOT NULL,
     interest_rate DECIMAL NOT NULL,
     loan_start_date DATE NOT NULL,
     monthly_repayment MONEY NOT NULL,
