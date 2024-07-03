@@ -1,4 +1,4 @@
 CREATE TABLE persona (
-    persona_id SERIAL,
-    persona_identifier BIGINT NOT NULL,
+    persona_id SERIAL PRIMARY KEY,
+    persona_identifier BIGINT NOT NULL
 );

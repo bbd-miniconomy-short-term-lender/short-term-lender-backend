@@ -6,6 +6,7 @@ on:
             - main
         paths: 
             - '.github/workflows/migrate.yml'
+            - 'database/migrations/*'
 
 permissions:
   contents: read
@@ -31,22 +32,10 @@ jobs:
 
             - name: Setup secrets
               run: |
-                DB_USERNAME=$(aws secretManager get-secret-value \ 
-                --secret-id short-term-lender-rds-credentials \
-                --query 'SecretString' --output text) \
-                | jq .username
-                DB_PASSWORD=$(aws secretManager get-secret-value \ 
-                --secret-id short-term-lender-rds-credentials \
-                --query 'SecretString' --output text) \
-                | jq .password
-                DB_HOST=$(aws secretManager get-secret-value \ 
-                --secret-id short-term-lender-rds-credentials \
-                --query 'SecretString' --output text) \
-                | jq .host
-                DB_PORT=$(aws secretManager get-secret-value \ 
-                --secret-id short-term-lender-rds-credentials \
-                --query 'SecretString' --output text) \
-                | jq .port
+                DB_USERNAME=$(aws secretsmanager get-secret-value --secret-id short-term-lender-rds-credentials --query 'SecretString' --output text | jq .username)
+                DB_PASSWORD=$(aws secretsmanager get-secret-value --secret-id short-term-lender-rds-credentials --query 'SecretString' --output text | jq .password)
+                DB_HOST=$(aws secretsmanager get-secret-value --secret-id short-term-lender-rds-credentials --query 'SecretString' --output text | jq .host)
+                DB_PORT=$(aws secretsmanager get-secret-value --secret-id short-term-lender-rds-credentials --query 'SecretString' --output text | jq .port)
 
                 echo "DB_USERNAME=$DB_USERNAME" >> $GITHUB_ENV
                 echo "DB_PASSWORD=$DB_PASSWORD" >> $GITHUB_ENV
@@ -57,6 +46,6 @@ jobs:
               uses: actions/checkout@v4
 
             - run: wget -qO- https://download.red-gate.com/maven/release/com/redgate/flyway/flyway-commandline/10.11.0/flyway-commandline-10.11.0-linux-x64.tar.gz | tar -xvz && sudo ln -s `pwd`/flyway-10.11.0/flyway /usr/local/bin
-            - run: flyway -user="${{ env.DB_USERNAME }}" -password="${{ env.DB_PASSWORD }}" -url="jdbc:postgresql://${{ env.DB_HOST }}:${{ env.PORT }}/${{ secrets.DB_NAME }}" -locations=filesystem:$(pwd)/database/migrations info
-            - run: flyway -user="${{ env.DB_USERNAME }}" -password="${{ env.DB_PASSWORD }}" -url="jdbc:postgresql://${{ env.DB_HOST }}:${{ env.PORT }}/${{ secrets.DB_NAME }}" -locations=filesystem:$(pwd)/database/migrations migrate
+            - run: flyway -user=${{ env.DB_USERNAME }} -password=${{ env.DB_PASSWORD }} -url="jdbc:postgresql://${{ env.DB_HOST }}:${{ env.DB_PORT }}/${{ secrets.DB_NAME }}" -locations=filesystem:$(pwd)/database/migrations info
+            - run: flyway -user=${{ env.DB_USERNAME }} -password=${{ env.DB_PASSWORD }} -url="jdbc:postgresql://${{ env.DB_HOST }}:${{ env.DB_PORT }}/${{ secrets.DB_NAME }}" -locations=filesystem:$(pwd)/database/migrations migrate
               

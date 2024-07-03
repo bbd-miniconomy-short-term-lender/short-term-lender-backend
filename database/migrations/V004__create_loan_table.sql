@@ -1,5 +1,6 @@
 CREATE TABLE loan (
-    loan_id SERIAL,
+    loan_id SERIAL PRIMARY KEY,
+    persona_id BIGINT NOT NULL,
     amount MONEY NOT NULL,
     interest_rate DECIMAL NOT NULL,
     loan_start_date VARCHAR(10),

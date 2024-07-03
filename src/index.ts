@@ -4,7 +4,7 @@ import { swaggerDocs } from "../swagger/swaggerDocs";
 import { loanRoutes } from "./api/routes/loan-routes";
 
 const app: Application = express();
-const PORT: number = 3001;
+const PORT: number = 5000;
 
 app.use(express.json());
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
