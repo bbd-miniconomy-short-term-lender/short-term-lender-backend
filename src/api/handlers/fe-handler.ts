@@ -92,7 +92,7 @@ const parseNumber = (value: number | string | undefined): number => {
     try {
         const repayments = await repaymentRepository.getRepaymentsById(loan_id!) ?? [];
 
-        res.status(200).json({...repayments});
+        res.status(200).json(repayments);
     } catch (error) {
         console.log(error);
         res.status(500).json({message: "Internal server error"});
