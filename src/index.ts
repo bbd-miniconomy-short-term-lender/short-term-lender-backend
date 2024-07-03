@@ -14,7 +14,6 @@ app.use(cors());
 app.use(express.json());
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 app.use("/", loanRoutes, managementRoutes);
-app.use("/", authMiddleware, feRouter);
 
 // health check
 app.get("/health", (req: Request, res: Response) => {
@@ -24,6 +23,8 @@ app.get("/health", (req: Request, res: Response) => {
         uptime: process.uptime()
     })
 });
+
+app.use("/", authMiddleware, feRouter);
 
 app.listen(PORT, () => {
     console.log(`listening on port: ${PORT}...`);
