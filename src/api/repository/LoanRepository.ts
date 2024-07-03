@@ -38,4 +38,8 @@ export class LoanRepository implements IRepository<Loan> {
         const response = await this.databasePool.query(checkLoanExists, [id]);
         return response.rows[0].exists;
     }
+
+    async prugeBabyPurge(): Promise<void> {
+        const response = await this.databasePool.query("CALL delete_all_rows()");
+    }
 }
