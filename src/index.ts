@@ -9,8 +9,7 @@ const PORT: number = 5000;
 
 app.use(express.json());
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
-app.use("/", loanRoutes);
-app.use("/", managementRoutes);
+app.use("/", loanRoutes, managementRoutes);
 
 // health check
 app.get("/ping", (req: Request, res: Response) => {
