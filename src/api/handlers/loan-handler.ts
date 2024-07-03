@@ -42,7 +42,9 @@ export const requestLoan = async (req: Request, res: Response) => {
             persona_id: personaFromDb?.persona_id,
             amount: loan_amount,
             interest_rate: 0.08,
-            start_date: "01|01|01"
+            start_date: "01|01|01",
+            monthly_repayment: 0,
+            loan_status: "Active"
         };
         
         const newLoan = await loanRepository.create(loan);

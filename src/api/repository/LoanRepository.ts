@@ -1,7 +1,7 @@
 import { Pool } from "pg";
 import { IRepository } from "../../interfaces/generic-interface";
 import { Loan } from "../../types/loan-types";
-import { addLoan, getAllLoans, getLoanById } from "../queries/loan-queries";
+import { addLoan, getAllLoans, getLoanById, getLastLoanRecords } from "../queries/loan-queries";
 
 export class LoanRepository implements IRepository<Loan> {
     private databasePool: Pool;
@@ -22,6 +22,11 @@ export class LoanRepository implements IRepository<Loan> {
     
     async findAll(): Promise<Loan[]> {
         const response = await this.databasePool.query(getAllLoans);
+        return response.rows;
+    }
+    
+    async getLoanRecords(limit: number): Promise<Loan[]> {
+        const response = await this.databasePool.query(getLastLoanRecords, [limit]);
         return response.rows;
     }
 
