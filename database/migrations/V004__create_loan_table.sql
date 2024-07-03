@@ -19,7 +19,7 @@ CREATE TABLE loan (
 
 -- Create the trigger to automatically calculate monthly_repayment
 CREATE TRIGGER calculate_monthly_repayments_trigger
-BEFORE INSERT ON loan_table
+BEFORE INSERT ON loan
 FOR EACH ROW
 EXECUTE FUNCTION calculate_monthly_repayments();
 
@@ -31,7 +31,7 @@ DECLARE
 BEGIN
     SELECT SUM(l.monthly_repayment)
     INTO v_total_paid
-    FROM loan_table l
+    FROM loan l
     JOIN repayment r ON l.loan_id = r.loan_id
     WHERE l.loan_id = p_loan_id;
 
