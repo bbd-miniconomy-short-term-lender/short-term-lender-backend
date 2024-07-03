@@ -57,6 +57,11 @@ export const feGetLoanTable = async (req: Request, res: Response) => {
 export const feUpdateLoanStatus = async (req: Request, res: Response) => {
     const { loan_status, loan_id } = req.body;
 
+    console.log(req.body);
+    console.log(loan_id);
+    console.log(loan_status);
+
+
     if (!loan_id) {
         return res.status(422).json({ message: "loanId should be a number" });
     }
