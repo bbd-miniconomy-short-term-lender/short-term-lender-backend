@@ -12,13 +12,14 @@ export class PersonaRepository implements IRepository<Persona> {
 
     async create(persona: Persona): Promise<Persona> {
         const response = await this.databasePool.query(addPersona, [persona.persona_identifier]);
+        
         return response.rows[0];
     }
 
     async findById(id: number): Promise<Persona | null> {
         // validate id
         const response = await this.databasePool.query(getPersonaById, [id])
-        return response.rows as Persona
+        return response.rows.length > 0 ? response.rows[0] as Persona : null;
     }
 
     async findAll(): Promise<Persona[]> {

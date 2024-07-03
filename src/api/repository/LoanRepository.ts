@@ -17,7 +17,7 @@ export class LoanRepository implements IRepository<Loan> {
 
     async findById(id: number): Promise<Loan | null> {
         const response = await this.databasePool.query(getLoanById, [id]);
-        return response.rows as unknown as Loan;
+        return response.rows[0] as unknown as Loan;
     }
     
     async findAll(): Promise<Loan[]> {
