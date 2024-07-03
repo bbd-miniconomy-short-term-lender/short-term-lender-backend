@@ -1,8 +1,3 @@
--- CREATE TABLE repayment (
---     repayment_id SERIAL,
---     amount MONEY NOT NULL
--- );
-
 CREATE TABLE repayment (
     repayment_id SERIAL PRIMARY KEY,
     loan_id INT NOT NULL,
