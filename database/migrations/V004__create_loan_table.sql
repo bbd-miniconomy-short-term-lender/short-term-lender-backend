@@ -1,7 +1,7 @@
 CREATE OR REPLACE FUNCTION calculate_monthly_repayments()
 RETURNS TRIGGER AS $$
 BEGIN
-    NEW.monthly_repayment := (NEW.loan_amount * NEW.interest_rate * POWER(1 + NEW.interest_rate, 6)) / (POWER(1 + NEW.interest_rate, 6) - 1);
+    NEW.monthly_repayment := (NEW.amount * NEW.interest_rate * POWER(1 + NEW.interest_rate, 6)) / (POWER(1 + NEW.interest_rate, 6) - 1);
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
