@@ -10,10 +10,10 @@ CREATE TABLE loan (
     loan_id SERIAL PRIMARY KEY,
     amount MONEY NOT NULL,
     interest_rate DECIMAL NOT NULL,
-    loan_start_date DATE NOT NULL,
+    loan_start_date VARCHAR(10) NOT NULL,
     monthly_repayment MONEY NOT NULL,
-    loan_status VARCHAR(50) NOT NULL,
-    persona_id INT NOT NULL,  -- Assuming you have a persona_id column for foreign key constraint
+    loan_status VARCHAR(10) NOT NULL,
+    persona_id BIGINT NOT NULL,  -- Assuming you have a persona_id column for foreign key constraint
     FOREIGN KEY (persona_id) REFERENCES persona(persona_id)
 );
 
