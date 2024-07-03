@@ -5,31 +5,36 @@ import { LoanRepository } from "../repository/LoanRepository";
 import { Persona } from "../../types/persona-types";
 import { Loan } from "../../types/loan-types";
 import { CommercialBankRepository } from "../repository/CommercialBankRepository";
-import { LoanApplication } from "../../types/commercial-bank";
+import { RetailBankRepository } from "../repository/ReatilBankRepository";
+import { HandOfZeusRepository } from "../repository/HandOfZeusRepository";
+import { getLoanEndDate } from "../../utils";
 
 export const requestLoan = async (req: Request, res: Response) => {
-    //bd
-
-    // check if we have the funds ...
-    // create a debit order with the bank
-    // get interest rate
-    // get date
-
-    // then ...
-    const personaRepository = new PersonaRepository(pool);
-    const loanRepository = new LoanRepository(pool);
-
-
     const persona_identifier = parseInt(req.body.personaId, 10);
     const loan_amount = parseInt(req.body.loanAmount, 10);
 
+    const commercialBankRepository = new CommercialBankRepository();
+    const retailBankRepository = new RetailBankRepository();
+    const handOfZeusRepository = new HandOfZeusRepository();
+    const personaRepository = new PersonaRepository(pool);
+    const loanRepository = new LoanRepository(pool);
 
     if (!persona_identifier || !loan_amount) {
         res.status(422).json({message: "personaId and loanAmount should be a number"});
     }
 
-
     try {
+        // get account balance
+        const cbAccountBalance = await commercialBankRepository.getAccountBalance();
+
+        if (cbAccountBalance.data.accountBalance < loan_amount) {
+            res.status(400).json({message: "We broke fam!"});
+        }
+
+        // get interest rates
+        const hozRate = await handOfZeusRepository.getLendingRate();
+        const hozCurrentdate = await handOfZeusRepository.getcurrentDate(Date.now());
+
         // check if they exist
         let personaFromDb = await personaRepository.findById(persona_identifier);
         
@@ -41,13 +46,23 @@ export const requestLoan = async (req: Request, res: Response) => {
         const loan: Loan = {
             persona_id: personaFromDb?.persona_id,
             amount: loan_amount,
-            interest_rate: 0.08,
-            start_date: "01|01|01",
-            monthly_repayment: 0,
-            loan_status: "Active"
+            interest_rate: hozRate.rate,
+            start_date: hozCurrentdate.date,
+            loan_status: "Active",
+            monthly_repayment: 0
         };
         
         const newLoan = await loanRepository.create(loan);
+        await retailBankRepository.createDebitOrder({
+            amountInMibiBBDough: newLoan.amount, 
+            personaId: personaFromDb.persona_id!, 
+            dayInMonth: 1, 
+            endsAt: await getLoanEndDate(handOfZeusRepository, Date.now()), 
+            recepient: {
+                bankId: 1001,
+                accountId: 'short-term-lender'
+            }
+        });
         
         res.status(201).json({loanId: newLoan.loan_id, message: "Loan request successful"});
     } catch (error) {
@@ -56,7 +71,7 @@ export const requestLoan = async (req: Request, res: Response) => {
 }
 
 export const requestLoanInfo = async (req: Request, res: Response) => {
-    //bd
+    const loanRepository = new LoanRepository(pool);
 
     const loan_id = parseInt(req.params.loanId, 10);
 
@@ -64,12 +79,10 @@ export const requestLoanInfo = async (req: Request, res: Response) => {
         res.status(422).json({message: "loanId should be a number"});
     }
 
-    const loanRepository = new LoanRepository(pool);
-
     try {
         const loan = await loanRepository.findById(loan_id!);
         
-        res.status(200).json({...loan, amount: loan?.amount.toString().replace("$", "R")});
+        res.status(200).json({...loan, amount: loan?.amount.toString().replace("$", "D")});
     } catch (error) {
         res.status(500).json({message: "Internal server error"});
     }
