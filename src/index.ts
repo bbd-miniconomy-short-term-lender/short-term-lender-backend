@@ -4,10 +4,12 @@ import { swaggerDocs } from "../swagger/swaggerDocs";
 import { loanRoutes } from "./api/routes/loan-routes";
 import { managementRoutes } from "./api/routes/management-routes";
 import { feRouter } from "./api/routes/fe-routes";
+import cors from "cors";
 
 const app: Application = express();
 const PORT: number = 5000;
 
+app.use(cors());
 app.use(express.json());
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 app.use("/", loanRoutes, managementRoutes, feRouter);
