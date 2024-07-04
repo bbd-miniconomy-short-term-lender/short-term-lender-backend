@@ -46,7 +46,7 @@ export const requestLoan = async (req: Request, res: Response) => {
         const loan: Loan = {
             persona_id: personaFromDb?.persona_id,
             amount: loan_amount,
-            interest_rate: hozRate.rate,
+            interest_rate: hozRate.value,
             start_date: hozCurrentdate.date,
             loan_status: "Active",
             monthly_repayment: 0
