@@ -1,0 +1,59 @@
+@startuml A
+!define RECTANGLE class
+
+package "GitHub Actions" {
+  RECTANGLE "OIDC Provider" as oidc
+}
+
+package "Privately Managed DNS" {
+  RECTANGLE "DNS Management" as dns
+}
+
+package "AWS" {
+  package "IAM" {
+    RECTANGLE "GitHub Actions Role" as iamRole
+  }
+
+  package "CloudFront" {
+    RECTANGLE "Frontend Distribution" as frontendCF
+  }
+
+  package "S3" {
+    RECTANGLE "Frontend Assets" as s3Bucket
+  }
+
+  package "API Gateway" {
+    RECTANGLE "HTTP API" as apiGateway
+  }
+
+  package "EC2" {
+    RECTANGLE "Express API Server" as ec2Instance
+  }
+
+  package "RDS" {
+    RECTANGLE "PostgreSQL Database" as rdsInstance
+  }
+
+  package "Cognito" {
+    RECTANGLE "User Pool" as cognitoUserPool
+  }
+
+  package "VPC" {
+    RECTANGLE "VPC" as vpc
+  }
+}
+
+oidc --> iamRole : Assume Role
+
+dns --> frontendCF : Routes Traffic
+
+frontendCF --> s3Bucket : Fetches Assets
+frontendCF --> cognitoUserPool : User Authentication
+
+apiGateway --> ec2Instance : Proxies Requests
+ec2Instance --> rdsInstance : Connects to Database
+
+ec2Instance --> vpc : Inside VPC
+rdsInstance --> vpc : Inside VPC
+
+@enduml

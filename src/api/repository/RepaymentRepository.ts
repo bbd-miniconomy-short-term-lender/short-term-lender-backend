@@ -1,7 +1,7 @@
 import { Pool } from "pg";
 import { IRepository } from "../../interfaces/generic-interface";
 import { Repayment } from "../../types/repayment-types";
-import { getRepaymentsById, getTotalRepayments } from "../queries/repayment-queries";
+import { getRepaymentsById, getTotalRepayments, getAllRepayments } from "../queries/repayment-queries";
 
 export class RepaymentRepository implements IRepository<Repayment> {
     private databasePool: Pool;
@@ -12,9 +12,11 @@ export class RepaymentRepository implements IRepository<Repayment> {
     create(object: Repayment): Promise<Repayment> {
         throw new Error("Method not implemented.");
     }
-    findAll(): Promise<Repayment[]> {
-        throw new Error("Method not implemented.");
+    async findAll(): Promise<Repayment[]> {
+        const response = await this.databasePool.query(getAllRepayments);
+        return response.rows;
     }
+    
     findById(id: number): Promise<Repayment | null> {
         throw new Error("Method not implemented.");
     }

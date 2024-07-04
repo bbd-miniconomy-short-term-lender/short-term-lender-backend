@@ -1,0 +1,53 @@
+@startuml
+!define RECTANGLE actor
+!define PARTICIPANT participant
+!define ARROW ->
+
+RECTANGLE "Audience" as audience
+PARTICIPANT "Shrek" as shrek
+PARTICIPANT "Donkey" as donkey
+PARTICIPANT "Princess Fiona" as fiona
+PARTICIPANT "Lord Farquaad" as farquaad
+PARTICIPANT "Dragon" as dragon
+PARTICIPANT "Gingerbread Man" as gingerbreadMan
+PARTICIPANT "Pinocchio" as pinocchio
+PARTICIPANT "Three Blind Mice" as blindMice
+PARTICIPANT "Fairy Godmother" as fairyGodmother
+PARTICIPANT "Puss in Boots" as pussInBoots
+
+audience ARROW shrek : Lives alone in swamp
+
+shrek ARROW donkey : Meets Donkey
+donkey ARROW shrek : Follows Shrek
+
+shrek ARROW fiona : Rescues Fiona
+fiona ARROW shrek : Travels to Duloc
+
+shrek ARROW farquaad : Confronts Farquaad
+farquaad ARROW shrek : Sends Shrek on mission
+
+shrek ARROW dragon : Faces Dragon
+dragon ARROW shrek : Escapes with Fiona
+
+shrek ARROW fiona : Falls in love
+fiona ARROW shrek : True love's form
+
+shrek ARROW gingerbreadMan : Meets Gingerbread Man
+gingerbreadMan ARROW shrek : Asks about Farquaad
+
+shrek ARROW pinocchio : Meets Pinocchio
+pinocchio ARROW shrek : Asks about Farquaad
+
+shrek ARROW blindMice : Meets Three Blind Mice
+blindMice ARROW shrek : Asks about Farquaad
+
+farquaad ARROW fiona : Attempts to marry Fiona
+fiona ARROW farquaad : Rejects Farquaad
+
+shrek ARROW pussInBoots : Meets Puss in Boots
+pussInBoots ARROW shrek : Joins the quest
+
+fairyGodmother ARROW fiona : Reveals curse
+fiona ARROW fairyGodmother : Seeks true love's kiss
+
+@enduml

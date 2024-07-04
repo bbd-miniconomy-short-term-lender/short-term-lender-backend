@@ -1,0 +1,42 @@
+@startuml Name
+actor User
+
+participant "Privately Managed DNS" as DNS
+participant "CloudFront Distribution" as CF
+participant "Cognito User Pool" as Cognito
+participant "S3 Bucket" as S3
+participant "API Gateway" as APIGW
+participant "EC2 Instance (Express API)" as EC2
+participant "RDS (PostgreSQL)" as RDS
+
+User -> DNS : DNS Query
+DNS -> CF : Routes to CloudFront
+
+alt Fetching Frontend Assets
+    User -> CF : Request Frontend
+    CF -> S3 : Fetches Assets
+    S3 --> CF : Returns Assets
+    CF --> User : Delivers Frontend
+end
+
+alt User Authentication
+    User -> CF : Auth Request
+    CF -> Cognito : User Authentication
+    Cognito --> CF : Auth Token
+    CF --> User : Returns Auth Token
+end
+
+User -> APIGW : API Request (with Auth Token)
+APIGW -> EC2 : Proxies Request
+
+alt Valid Request
+    EC2 -> RDS : Query Database
+    RDS --> EC2 : Returns Data
+    EC2 --> APIGW : API Response
+    APIGW --> User : Returns Data
+else Invalid Request
+    EC2 --> APIGW : Error Response
+    APIGW --> User : Returns Error
+end
+
+@enduml
