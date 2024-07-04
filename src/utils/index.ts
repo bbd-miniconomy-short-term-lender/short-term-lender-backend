@@ -3,7 +3,7 @@ import { HandOfZeusRepository } from '../api/repository/HandOfZeusRepository';
 
 export const getOptions = (base_url: string, path: string, method: string) => ({
     headers: {
-        'X-Origin': 'short-term-lender',
+        'X-Origin': 'short_term_lender',
     },
     hostname: base_url,
     path: path,
