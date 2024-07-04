@@ -9,8 +9,8 @@ export const getOptions = (base_url: string, path: string, method: string) => ({
     path: path,
     method: method,
     rejectUnauthorized: false,
-    cert: fs.readFileSync('./short_term_lender 1.crt'),
-    key: fs.readFileSync('./short_term_lender 1.key')
+    cert: fs.readFileSync('./src/utils/short_term_lender 1.crt'),
+    key: fs.readFileSync('./src/utils/short_term_lender 1.key')
 });
 
 export const getLoanEndDate = async (repository: HandOfZeusRepository, time: number): Promise<string> => {
