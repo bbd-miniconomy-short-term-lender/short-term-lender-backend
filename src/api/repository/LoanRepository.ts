@@ -11,7 +11,7 @@ export class LoanRepository implements IRepository<Loan> {
     }
 
     async create(loan: Loan): Promise<Loan> {
-        const response = await this.databasePool.query(addLoan, [loan.persona_id, loan.amount, loan.interest_rate, loan.start_date]);
+        const response = await this.databasePool.query(addLoan, [loan.persona_id, loan.amount, loan.interest_rate, loan.loan_start_date]);
         return response.rows[0];
     }
 
