@@ -52,6 +52,7 @@ export const requestLoan = async (req: Request, res: Response) => {
             monthly_repayment: 0
         };
 
+        loan.interest_rate = loan.interest_rate / 100;
         console.log(loan);
         
         const newLoan = await loanRepository.create(loan);
