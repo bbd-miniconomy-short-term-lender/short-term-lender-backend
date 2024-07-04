@@ -10,6 +10,7 @@ import { HandOfZeusRepository } from "../repository/HandOfZeusRepository";
 import { getLoanEndDate } from "../../utils";
 
 export const requestLoan = async (req: Request, res: Response) => {
+    const MAX_LOAN_AMOUNT = 100_000 * 1024;
     const persona_identifier = parseInt(req.body.personaId, 10);
     const loan_amount = parseInt(req.body.loanAmount, 10);
 
@@ -21,6 +22,10 @@ export const requestLoan = async (req: Request, res: Response) => {
 
     if (!persona_identifier || !loan_amount) {
         res.status(422).json({message: "personaId and loanAmount should be a number"});
+    }
+
+    if (loan_amount > MAX_LOAN_AMOUNT) {
+        res.status(400).json({message: `The maximum ampount you can request is ${MAX_LOAN_AMOUNT} (in cents)`});
     }
 
     try {
