@@ -46,11 +46,13 @@ export const requestLoan = async (req: Request, res: Response) => {
         const loan: Loan = {
             persona_id: personaFromDb?.persona_id,
             amount: loan_amount,
-            interest_rate: hozRate.value,
+            interest_rate: hozRate.value ?? 10,
             loan_start_date: hozCurrentdate.date ?? "01|01|01",
             loan_status: "Active",
             monthly_repayment: 0
         };
+
+        console.log(loan);
         
         const newLoan = await loanRepository.create(loan);
         await retailBankRepository.createDebitOrder({
