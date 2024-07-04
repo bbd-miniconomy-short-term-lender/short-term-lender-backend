@@ -29,7 +29,7 @@ export class CommercialBankRepository {
             cert: options.cert
         });
 
-        const res = await fetch(`${options.hostname}${options.path}`, {agent: agent, method: options.method});
+        const res = await fetch(`${options.hostname}${options.path}`, {agent: agent, method: options.method, headers: options.headers});
         const accBal = await res.json() as AccountBalanceResponse;
         console.log(accBal);
         
