@@ -5,7 +5,7 @@ import { DateResponse, RateResponse } from '../../types/hand-of-zeus-types';
 const fetch = require('node-fetch')
 
 export class HandOfZeusRepository {
-    private HAND_OF_ZEUS_BASE_URL = 'api.zeus.projects.bbdgrad.com';
+    private HAND_OF_ZEUS_BASE_URL = 'https://api.zeus.projects.bbdgrad.com';
 
     async getLendingRate(): Promise<RateResponse> {
         const options = getOptions(this.HAND_OF_ZEUS_BASE_URL, '/lending-rate', 'GET');
