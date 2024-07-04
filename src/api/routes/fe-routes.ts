@@ -4,10 +4,10 @@ import { feGetLoanById, feGetLoanTable, feGetRepaymentsById, feUpdateLoanStatus 
 
 const router = Router();
 
-router.get("/fe/loan/info/:loanId", feGetLoanById);
-router.get("/fe/loan/table", feGetLoanTable);
-router.get("/fe/repayments/:loanId", feGetRepaymentsById);
+router.get("/loan/info/:loanId", feGetLoanById);
+router.get("/loan/table", feGetLoanTable);
+router.get("/repayments/:loanId", feGetRepaymentsById);
 
-router.post("/fe/loan/status", feUpdateLoanStatus);
+router.post("/loan/status", feUpdateLoanStatus);
 
 export {router as feRouter}
