@@ -30,6 +30,6 @@ export class CommercialBankRepository {
         });
 
         const res = await fetch(`${options.hostname}${options.path}`, {agent: agent, method: options.method});
-        return res.json() as AccountBalanceResponse;
+        return await res.json() as AccountBalanceResponse;
     }
 }
