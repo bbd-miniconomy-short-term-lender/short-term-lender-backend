@@ -1,0 +1,28 @@
+@startuml
+!define RECTANGLE actor
+!define PARTICIPANT participant
+!define ARROW ->
+
+RECTANGLE "Audience" as audience
+PARTICIPANT "Barry B. Benson" as barry
+PARTICIPANT "Vanessa Bloome" as vanessa
+PARTICIPANT "Ken" as ken
+PARTICIPANT "Adam Flayman" as adam
+PARTICIPANT "Layton T. Montgomery" as montgomery
+PARTICIPANT "Humans" as humans
+
+audience ARROW barry : Graduates from college
+
+barry ARROW vanessa : Saves Vanessa
+vanessa ARROW barry : Befriends Barry
+
+barry ARROW humans : Sues humans
+humans ARROW barry : Wins lawsuit
+
+barry ARROW montgomery : Confronts Montgomery
+montgomery ARROW barry : Saves hive
+
+barry ARROW vanessa : Falls in love
+vanessa ARROW barry : True love's kiss
+
+@enduml

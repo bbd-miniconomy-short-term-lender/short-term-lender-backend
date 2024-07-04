@@ -66,6 +66,7 @@ export const requestLoan = async (req: Request, res: Response) => {
         
         res.status(201).json({loanId: newLoan.loan_id, message: "Loan request successful"});
     } catch (error) {
+        console.error(error);
         res.status(500).json({message: "Internal server error"});
     }
 }
@@ -84,6 +85,7 @@ export const requestLoanInfo = async (req: Request, res: Response) => {
         
         res.status(200).json({...loan, amount: loan?.amount.toString().replace("$", "D")});
     } catch (error) {
+        console.error(error);
         res.status(500).json({message: "Internal server error"});
     }
 }
@@ -95,6 +97,7 @@ export const commercialBankLoanRequest = async (req: Request, res: Response) => 
         const response = await commercialBankRepository.requestLoan(req.body);
         res.status(response.status).json(response);
     } catch (error) {
+        console.error(error);
         res.status(500).json({message: "Internal server error"});
     }
 }
