@@ -10,6 +10,7 @@ import { HandOfZeusRepository } from "../repository/HandOfZeusRepository";
 import { getLoanEndDate } from "../../utils";
 
 export const requestLoan = async (req: Request, res: Response) => {
+    const MAX_LOAN_AMOUNT = 100_000 * 1024;
     const persona_identifier = parseInt(req.body.personaId, 10);
     const loan_amount = parseInt(req.body.loanAmount, 10);
 
@@ -29,6 +30,10 @@ export const requestLoan = async (req: Request, res: Response) => {
 
         if (cbAccountBalance.data.accountBalance < loan_amount) {
             res.status(400).json({message: "We broke fam!"});
+        }
+
+        if (loan_amount > MAX_LOAN_AMOUNT) {
+            res.status(400).json({message: `Max loan amount that can be requested is ${MAX_LOAN_AMOUNT} (in cents)`});
         }
 
         // get interest rates
