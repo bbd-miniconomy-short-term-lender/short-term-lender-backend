@@ -24,6 +24,10 @@ export const requestLoan = async (req: Request, res: Response) => {
         res.status(422).json({message: "personaId and loanAmount should be a number"});
     }
 
+    if (loan_amount > MAX_LOAN_AMOUNT) {
+        res.status(400).json({message: `The maximum ampount you can request is ${MAX_LOAN_AMOUNT} (in cents)`});
+    }
+
     try {
         // get account balance
         const cbAccountBalance = await commercialBankRepository.getAccountBalance();
