@@ -1,13 +1,14 @@
 import { Router } from "express";
-import { feGetLoanById, feGetLoanTable, feGetRepaymentsById, feUpdateLoanStatus } from "../handlers/fe-handler";
+import { feGetLoanById, feGetLoanTable, feGetRepaymentsById, feUpdateLoanStatus, feGetLendingRate } from "../handlers/fe-handler";
 
 
 const router = Router();
 
-router.get("/fe/loan/info/:loanId", feGetLoanById);
-router.get("/fe/loan/table", feGetLoanTable);
-router.get("/fe/repayments/:loanId", feGetRepaymentsById);
+router.get("/loan/info/:loanId", feGetLoanById);
+router.get("/loan/table", feGetLoanTable);
+router.get("/repayments/:loanId", feGetRepaymentsById);
+router.get("/fe/lending", feGetLendingRate);
 
-router.post("/fe/loan/status", feUpdateLoanStatus);
+router.post("/loan/status", feUpdateLoanStatus);
 
 export {router as feRouter}

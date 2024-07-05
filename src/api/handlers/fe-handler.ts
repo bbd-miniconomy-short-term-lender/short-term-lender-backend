@@ -3,6 +3,7 @@ import { LoanRepository } from "../repository/LoanRepository";
 import { pool } from "../../database-connection";
 import { Loan } from "../../types/loan-types";
 import { RepaymentRepository } from "../repository/RepaymentRepository";
+import { HandOfZeusRepository } from "../repository/HandOfZeusRepository";
 
 const NUM_RECORDS_TO_LOAD = 25;
 
@@ -111,6 +112,20 @@ export const feGetRepaymentsById = async (req: Request, res: Response) => {
         const repayments = await repaymentRepository.getRepaymentsById(loan_id!) ?? [];
 
         res.status(200).json(repayments);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
+
+export const feGetLendingRate = async (req: Request, res: Response) => {
+
+    const hoz = new HandOfZeusRepository();
+
+    try {
+        const lending: number = (await hoz.getLendingRate()).value ?? 10;
+
+        res.status(200).json({lending: lending});
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Internal server error" });

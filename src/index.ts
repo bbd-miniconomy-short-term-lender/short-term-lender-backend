@@ -24,7 +24,7 @@ app.get("/health", (req: Request, res: Response) => {
     })
 });
 
-app.use("/", authMiddleware, feRouter);
+app.use("/fe", authMiddleware, feRouter);
 
 app.listen(PORT, () => {
     console.log(`listening on port: ${PORT}...`);

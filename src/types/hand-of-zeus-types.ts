@@ -3,5 +3,5 @@ export type DateResponse = {
 }
 
 export type RateResponse = {
-    rate: number;
+    value: number;
 }

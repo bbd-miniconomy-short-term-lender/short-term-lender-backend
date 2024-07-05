@@ -36,6 +36,10 @@ export const requestLoan = async (req: Request, res: Response) => {
             res.status(400).json({message: "We broke fam!"});
         }
 
+        if (loan_amount > MAX_LOAN_AMOUNT) {
+            res.status(400).json({message: `Max loan amount that can be requested is ${MAX_LOAN_AMOUNT} (in cents)`});
+        }
+
         // get interest rates
         const hozRate = await handOfZeusRepository.getLendingRate();
         const hozCurrentdate = await handOfZeusRepository.getcurrentDate(Date.now());
@@ -51,11 +55,14 @@ export const requestLoan = async (req: Request, res: Response) => {
         const loan: Loan = {
             persona_id: personaFromDb?.persona_id,
             amount: loan_amount,
-            interest_rate: hozRate.rate,
-            start_date: hozCurrentdate.date,
+            interest_rate: hozRate.value ?? 10,
+            loan_start_date: hozCurrentdate.date ?? "01|01|01",
             loan_status: "Active",
             monthly_repayment: 0
         };
+
+        loan.interest_rate = loan.interest_rate / 100;
+        console.log(loan);
         
         const newLoan = await loanRepository.create(loan);
         await retailBankRepository.createDebitOrder({
