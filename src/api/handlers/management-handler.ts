@@ -22,7 +22,7 @@ export const itsThePurge = async (req: Request, res: Response) => {
 
             const paymentsData = await loanRepository.findAll();
 
-            const totalLoans = paymentsData.filter((loan) => loan.start_date.slice(8, 10) === date.date.slice(8, 10));
+            const totalLoans = paymentsData.filter((loan) => loan.loan_start_date.slice(8, 10) === date.date.slice(8, 10));
 
             const sumOfLoans = totalLoans.map((loan) => loan.amount).reduce((curr, nxt) => curr + nxt, 0);
             const sumOfRepayments = totalLoans.map((loan) => loan.monthly_repayment * 6).reduce((curr, nxt) => curr + nxt, 0);
